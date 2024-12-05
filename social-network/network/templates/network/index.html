@@ -1,0 +1,127 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+    <script src="{% static 'network/createElements.js' %}"></script>
+    <script src="{% static 'network/API.js' %}"></script>
+    <script src="{% static 'network/posts.js' %}"></script>
+    <script src="{% static 'network/like.js' %}"></script>
+    <script src="{% static 'network/getCookies.js' %}"></script>
+    <script src="{% static 'network/edit.js' %}"></script>
+    
+{% endblock %}
+
+{% block username %}
+    {{ user.is_authenticated|json_script:"user_is_authenticated" }}
+{% endblock %}
+
+{% block body %}
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 0;
+}
+
+.posts-container {
+    width: 75%;
+    margin: 20px auto;
+}
+
+.new-post-card {
+    background-color: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.new-post-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1da1f2;
+    margin-bottom: 15px;
+}
+
+.new-post-form .form-group {
+    margin-bottom: 15px;
+}
+
+.new-post-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccd6dd;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: none;
+}
+
+.new-post-textarea:focus {
+    border-color: #1da1f2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(29, 161, 242, 0.5);
+}
+
+.new-post-button {
+    background-color: #1da1f2;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.new-post-button:hover {
+    background-color: #0d8de5;
+}
+
+.posts-list {
+    background-color: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.pagination {
+    text-align: center;
+    padding: 15px 0;
+}
+
+.pagination button {
+    background-color: #1da1f2;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #0d8de5;
+}
+
+</style>
+<div class="posts-container">
+    {% if user.is_authenticated %}
+    <div class="new-post-card">
+        <h5 class="new-post-title">Create a Post</h5>
+        <form method="POST" id="NewPostForm" class="new-post-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea class="form-control new-post-textarea" placeholder="What's happening?" rows="3" id="NewPostText"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary new-post-button" id="NewPostSubmit">Post</button>
+        </form>
+    </div>
+    {% endif %}
+    <div class="posts-list" id="AllPostsContainer"></div>
+    <div class="pagination" id="AllPostsPaginationContainer"></div>
+</div>
+{% endblock %}

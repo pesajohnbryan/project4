@@ -1,0 +1,34 @@
+{% extends "network/layout.html" %}
+
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'network/following.js' %}"></script>
+    <script src="{% static 'network/createElements.js' %}"></script>
+    <script src="{% static 'network/API.js' %}"></script>
+    <script src="{% static 'network/posts.js' %}"></script>
+    <script src="{% static 'network/like.js' %}"></script>
+    <script src="{% static 'network/getCookies.js' %}"></script>
+    <script src="{% static 'network/edit.js' %}"></script>
+{% endblock %}
+
+{% block username %}
+    {{ user.is_authenticated|json_script:"user_is_authenticated" }}
+{% endblock %}
+
+{% block body %}
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h4 class="mb-4">Posts from Users You Follow</h4>
+        
+        <!-- Following Posts Container -->
+        <div class="w-75 mx-auto" id="FollowingPostsContainer">
+            <!-- Dynamic content for posts goes here -->
+        </div>
+        
+        <!-- Pagination Container -->
+        <div class="w-75 mx-auto mt-4" id="FollowingPaginationContainer">
+            <!-- Pagination for posts goes here -->
+        </div>
+    </div>
+{% endblock %}
